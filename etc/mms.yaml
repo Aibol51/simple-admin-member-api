@@ -4,7 +4,7 @@ Port: 9104
 Timeout: 30000
 
 Auth:
-  AccessSecret:  # the same as core
+  AccessSecret: jS6VKDtsJf3z1n2VKDtsJf3z1n2 # the same as core
   AccessExpire: 259200
 
 CROSConf:
@@ -30,8 +30,8 @@ DatabaseConf:
   Host: 127.0.0.1
   Port: 3306
   DBName: simple_admin
-  Username: # set your username
-  Password: # set your password
+  Username: root # set your username
+  Password: QaQ1688588.. # set your password
   MaxOpenConn: 100
   SSLMode: disable
   CacheTime: 5
@@ -68,14 +68,14 @@ RedisConf:
   Type: node
 
 MmsRpc:
-  Target: k8s://default/mms-rpc-svc:9103
+  Target: 127.0.0.1:9103
   Enabled: true
 
 CoreRpc:
-  Target: k8s://default/core-rpc-svc:9101
+  Target: 127.0.0.1:9101
   Enabled: true
 
 McmsRpc:
-  Target: k8s://default/mcms-rpc-svc:9106
+  Target: 127.0.0.1:9106
   Enabled: false
   Timeout: 5000

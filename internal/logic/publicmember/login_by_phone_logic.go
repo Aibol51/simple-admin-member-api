@@ -20,23 +20,21 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-var MemberRankData = make(map[uint64]string)
-
-type LoginLogic struct {
+type LoginByPhoneLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic {
-	return &LoginLogic{
+func NewLoginByPhoneLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginByPhoneLogic {
+	return &LoginByPhoneLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
-		svcCtx: svcCtx,
-	}
+		svcCtx: svcCtx}
 }
 
-func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err error) {
+func (l *LoginByPhoneLogic) LoginByPhone(req *types.LoginByMobileReq) (resp *types.LoginResp, err error) {
+	// todo: add your logic here and delete this line
 	if l.svcCtx.Config.ProjectConf.LoginVerify != "captcha" && l.svcCtx.Config.ProjectConf.LoginVerify != "all" {
 		return nil, errorx.NewCodeAbortedError("login.loginTypeForbidden")
 	}
@@ -50,16 +48,16 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 	}
 
 	if isPass {
-		user, err := l.svcCtx.MmsRpc.GetMemberByUsername(l.ctx,
-			&mms.UsernameReq{
-				Username: req.Username,
+		user, err := l.svcCtx.MmsRpc.GetMemberByPhoneNumber(l.ctx,
+			&mms.PhoneNumberReq{
+				Mobile: req.Mobile,
 			})
 		if err != nil {
 			return nil, err
 		}
 
-		if !encrypt.BcryptCheck(req.Password, *user.Password) {
-			return nil, errorx.NewCodeInvalidArgumentError("login.wrongUsernameOrPassword")
+		if !encrypt.BcryptCheck(req.Password, user.Password) {
+			return nil, errorx.NewCodeInvalidArgumentError("login.wrongPhoneOrPassword")
 		}
 
 		token, err := jwt.NewJwtToken(l.svcCtx.Config.Auth.AccessSecret, time.Now().Unix(),
@@ -105,13 +103,14 @@ func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err erro
 			},
 		}
 		return resp, nil
+
 	} else {
 		return nil, errorx.NewCodeError(errorcode.InvalidArgument, "login.wrongCaptcha")
 	}
 }
 
 // genRankCache used to generate cache for member rank to improve performance
-func (l *LoginLogic) genRankCache() error {
+func (l *LoginByPhoneLogic) genRankCache() error {
 	list, err := l.svcCtx.MmsRpc.GetMemberRankList(l.ctx, &mms.MemberRankListReq{
 		Page:     1,
 		PageSize: 1000,

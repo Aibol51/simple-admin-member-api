@@ -93,6 +93,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
+				Path:    "/member/login_by_phone",
+				Handler: publicmember.LoginByPhoneHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
 				Path:    "/member/login_by_email",
 				Handler: publicmember.LoginByEmailHandler(serverCtx),
 			},

@@ -306,6 +306,34 @@
         }
       }
     },
+    "/member/login_by_phone": {
+      "post": {
+        "description": "Log in | 手机号登录",
+        "tags": [
+          "publicmember"
+        ],
+        "summary": "Log in | 手机号登录",
+        "operationId": "LoginByPhone",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/LoginByMobileReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "LoginResp",
+            "schema": {
+              "$ref": "#/definitions/LoginResp"
+            }
+          }
+        }
+      }
+    },
     "/member/login_by_sms": {
       "post": {
         "description": "Log in by SMS | 短信登录",
@@ -1396,6 +1424,44 @@
           "type": "string",
           "maxLength": 100,
           "x-go-name": "Email"
+        }
+      },
+      "x-go-package": "github.com/suyuan32/simple-admin-member-api/internal/types"
+    },
+    "LoginByMobileReq": {
+      "description": "Log in request | 登录参数",
+      "type": "object",
+      "required": [
+        "mobile",
+        "password"
+      ],
+      "properties": {
+        "captcha": {
+          "description": "The Captcha which users input | 用户输入的验证码",
+          "type": "string",
+          "maxLength": 5,
+          "minLength": 5,
+          "x-go-name": "Captcha"
+        },
+        "captchaId": {
+          "description": "Captcha ID which store in redis | 验证码编号, 存在redis中",
+          "type": "string",
+          "maxLength": 20,
+          "minLength": 20,
+          "x-go-name": "CaptchaId"
+        },
+        "mobile": {
+          "description": "User PhoneNumber | 手机号",
+          "type": "string",
+          "maxLength": 20,
+          "x-go-name": "Mobile"
+        },
+        "password": {
+          "description": "Password | 密码",
+          "type": "string",
+          "maxLength": 30,
+          "minLength": 6,
+          "x-go-name": "Password"
         }
       },
       "x-go-package": "github.com/suyuan32/simple-admin-member-api/internal/types"

@@ -270,6 +270,28 @@ type LoginReq struct {
 	Captcha string `json:"captcha,optional" validate:"omitempty,len=5"`
 }
 
+// Log in request | 登录参数
+// swagger:model LoginByMobileReq
+type LoginByMobileReq struct {
+	// User PhoneNumber | 手机号
+	// required : true
+	// max length : 20
+	Mobile string `json:"mobile" validate:"required,alphanum,max=20"`
+	// Password | 密码
+	// required : true
+	// max length : 30
+	// min length : 6
+	Password string `json:"password" validate:"required,max=30,min=6"`
+	// Captcha ID which store in redis | 验证码编号, 存在redis中
+	// max length : 20
+	// min length : 20
+	CaptchaId string `json:"captchaId,optional"  validate:"omitempty,len=20"`
+	// The Captcha which users input | 用户输入的验证码
+	// max length : 5
+	// min length : 5
+	Captcha string `json:"captcha,optional" validate:"omitempty,len=5"`
+}
+
 // Log in by email request | 邮箱登录参数
 // swagger:model LoginByEmailReq
 type LoginByEmailReq struct {

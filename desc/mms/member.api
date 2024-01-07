@@ -137,6 +137,21 @@ type (
         Captcha    string `json:"captcha,optional" validate:"omitempty,len=5"`
     }
 
+    // Log in request | 登录参数
+    LoginByMobileReq {
+        // User PhoneNumber | 手机号
+        Mobile   string `json:"mobile" validate:"required,alphanum,max=20"`
+
+        // Password | 密码
+        Password   string `json:"password" validate:"required,max=30,min=6"`
+
+        // Captcha ID which store in redis | 验证码编号, 存在redis中
+        CaptchaId  string `json:"captchaId,optional"  validate:"omitempty,len=20"`
+
+        // The Captcha which users input | 用户输入的验证码
+        Captcha    string `json:"captcha,optional" validate:"omitempty,len=5"`
+    }
+
     // Log in by email request | 邮箱登录参数
     LoginByEmailReq {
         // The user's email address | 用户的邮箱
@@ -277,6 +292,10 @@ service Mms {
     // Log in | 登录
     @handler login
     post /member/login (LoginReq) returns (LoginResp)
+
+    // Log in | 手机号登录
+    @handler loginByPhone
+    post /member/login_by_phone (LoginByMobileReq) returns (LoginResp)
 
     // Log in by email | 邮箱登录
     @handler loginByEmail
