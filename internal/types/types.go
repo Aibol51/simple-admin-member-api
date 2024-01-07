@@ -343,11 +343,34 @@ type LoginInfo struct {
 	Nickname string `json:"nickname"`
 	// RankName | 等级名称
 	RankName string `json:"rankName"`
+	// Mobile | 手机号
+	Mobile string `json:"mobile"`
 }
 
 // The modify info | 个人信息修改请求
 // swagger:model ModifyProfileReq
 type ModifyProfileReq struct {
+	// Nickname | 昵称
+	Nickname *string `json:"nickname,optional"`
+	// Mobile | 手机
+	Mobile *string `json:"mobile,optional"`
+	// Email | 邮箱
+	Email *string `json:"email,optional"`
+	// Avatar | 头像地址
+	Avatar *string `json:"avatar,optional"`
+}
+
+// The modify info response | 个人信息修改返回
+// swagger:model ModifyProfileResp
+type ModifyProfileResp struct {
+	BaseDataInfo
+	// The modify info | 个人信息修改返回
+	Data ModifyProfileInfo `json:"data"`
+}
+
+// The modify info | 个人信息修改返回
+// swagger:model ModifyProfileInfo
+type ModifyProfileInfo struct {
 	// Nickname | 昵称
 	Nickname *string `json:"nickname,optional"`
 	// Mobile | 手机

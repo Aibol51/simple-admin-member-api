@@ -56,7 +56,7 @@ func (l *LoginByPhoneLogic) LoginByPhone(req *types.LoginByMobileReq) (resp *typ
 			return nil, err
 		}
 
-		if !encrypt.BcryptCheck(req.Password, user.Password) {
+		if !encrypt.BcryptCheck(req.Password, *user.Password) {
 			return nil, errorx.NewCodeInvalidArgumentError("login.wrongPhoneOrPassword")
 		}
 
@@ -100,6 +100,7 @@ func (l *LoginByPhoneLogic) LoginByPhone(req *types.LoginByMobileReq) (resp *typ
 				RankName: l.svcCtx.Trans.Trans(l.ctx, MemberRankData[*user.RankId]),
 				Avatar:   *user.Avatar,
 				Expire:   uint64(expiredAt),
+				Mobile:   *user.Mobile,
 			},
 		}
 		return resp, nil

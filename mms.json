@@ -408,6 +408,34 @@
         }
       }
     },
+    "/member/profileInfo": {
+      "post": {
+        "description": "Get users' own profile | 获取用户信息接口",
+        "tags": [
+          "member"
+        ],
+        "summary": "Get users' own profile | 获取用户信息接口",
+        "operationId": "GetProfile",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/UUIDReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "LoginResp",
+            "schema": {
+              "$ref": "#/definitions/LoginResp"
+            }
+          }
+        }
+      }
+    },
     "/member/register": {
       "post": {
         "description": "Register | 注册",
@@ -1504,6 +1532,11 @@
           "format": "uint64",
           "x-go-name": "Expire"
         },
+        "mobile": {
+          "description": "Mobile | 手机号",
+          "type": "string",
+          "x-go-name": "Mobile"
+        },
         "nickname": {
           "description": "Nickname | 用户昵称",
           "type": "string",
@@ -1937,6 +1970,33 @@
       },
       "x-go-package": "github.com/suyuan32/simple-admin-member-api/internal/types"
     },
+    "ModifyProfileInfo": {
+      "description": "The modify info | 个人信息修改返回",
+      "type": "object",
+      "properties": {
+        "avatar": {
+          "description": "Avatar | 头像地址",
+          "type": "string",
+          "x-go-name": "Avatar"
+        },
+        "email": {
+          "description": "Email | 邮箱",
+          "type": "string",
+          "x-go-name": "Email"
+        },
+        "mobile": {
+          "description": "Mobile | 手机",
+          "type": "string",
+          "x-go-name": "Mobile"
+        },
+        "nickname": {
+          "description": "Nickname | 昵称",
+          "type": "string",
+          "x-go-name": "Nickname"
+        }
+      },
+      "x-go-package": "github.com/suyuan32/simple-admin-member-api/internal/types"
+    },
     "ModifyProfileReq": {
       "description": "The modify info | 个人信息修改请求",
       "type": "object",
@@ -1960,6 +2020,30 @@
           "description": "Nickname | 昵称",
           "type": "string",
           "x-go-name": "Nickname"
+        }
+      },
+      "x-go-package": "github.com/suyuan32/simple-admin-member-api/internal/types"
+    },
+    "ModifyProfileResp": {
+      "description": "The modify info response | 个人信息修改返回",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code | 错误代码",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Code"
+        },
+        "data": {
+          "description": "Data | 数据",
+          "type": "string",
+          "x-go-name": "Data",
+          "$ref": "#/definitions/ModifyProfileInfo"
+        },
+        "msg": {
+          "description": "Message | 提示信息",
+          "type": "string",
+          "x-go-name": "Msg"
         }
       },
       "x-go-package": "github.com/suyuan32/simple-admin-member-api/internal/types"

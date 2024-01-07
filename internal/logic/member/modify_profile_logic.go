@@ -2,6 +2,7 @@ package member
 
 import (
 	"context"
+
 	"github.com/suyuan32/simple-admin-member-rpc/types/mms"
 
 	"github.com/suyuan32/simple-admin-member-api/internal/svc"
@@ -26,7 +27,7 @@ func NewModifyProfileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Mod
 	}
 }
 
-func (l *ModifyProfileLogic) ModifyProfile(req *types.ModifyProfileReq) (resp *types.BaseMsgResp, err error) {
+func (l *ModifyProfileLogic) ModifyProfile(req *types.ModifyProfileReq) (*types.ModifyProfileResp, error) {
 	result, err := l.svcCtx.MmsRpc.UpdateMember(l.ctx, &mms.MemberInfo{
 		Id:       &l.userId,
 		Nickname: req.Nickname,
@@ -39,8 +40,20 @@ func (l *ModifyProfileLogic) ModifyProfile(req *types.ModifyProfileReq) (resp *t
 		return nil, err
 	}
 
-	return &types.BaseMsgResp{
-		Code: 0,
-		Msg:  result.Msg,
+	// Create the ModifyProfileInfo struct with updated details
+	profileInfo := types.ModifyProfileInfo{
+		Nickname: req.Nickname,
+		Mobile:   req.Mobile,
+		Email:    req.Email,
+		Avatar:   req.Avatar,
+	}
+
+	// Construct the ModifyProfileResp with the profile info
+	return &types.ModifyProfileResp{
+		BaseDataInfo: types.BaseDataInfo{
+			Code: 0,
+			Msg:  result.Msg,
+		},
+		Data: profileInfo,
 	}, nil
 }

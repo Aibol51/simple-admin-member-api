@@ -200,10 +200,36 @@ type (
 
         // RankName | 等级名称
         RankName    string          `json:"rankName"`
+
+        // Mobile | 手机号
+        Mobile      string          `json:"mobile"`
     }
 
     // The modify info | 个人信息修改请求
     ModifyProfileReq {
+        // Nickname | 昵称
+        Nickname  *string `json:"nickname,optional"`
+
+        // Mobile | 手机
+        Mobile  *string `json:"mobile,optional"`
+
+        // Email | 邮箱
+        Email  *string `json:"email,optional"`
+
+        // Avatar | 头像地址
+        Avatar  *string `json:"avatar,optional"`
+    }
+
+    // The modify info response | 个人信息修改返回
+    ModifyProfileResp {
+        BaseDataInfo
+
+        // The modify info | 个人信息修改返回
+        Data ModifyProfileInfo `json:"data"`
+    }
+
+    // The modify info | 个人信息修改返回
+    ModifyProfileInfo {
         // Nickname | 昵称
         Nickname  *string `json:"nickname,optional"`
 
@@ -273,7 +299,7 @@ service Mms {
 service Mms {
     // Modify users' own profile | 用户修改信息接口
     @handler modifyProfile
-    post /member/profile (ModifyProfileReq) returns (BaseMsgResp)
+    post /member/profile (ModifyProfileReq) returns (ModifyProfileResp)
 
     // Log out the service | 用户登出
     @handler logout
